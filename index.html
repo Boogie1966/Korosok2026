@@ -89,12 +89,9 @@
 
   <div class="info">
     <b>Az utolsó szakasz működése:</b> a Szarvasi Holt-Körös le van választva az élő Hármas-Körösről, ezért
-    Szarvas térségében a kenukat <b>át kell emelni</b> a folyóból a holtágba – ez a bevett gyakorlat az itteni
+    Szarvas térségében a kenukat <b>át kell emelni</b> a folyóból a holtágba (kb 50 m) – ez a bevett gyakorlat az itteni
     túráknál. Az átemelés után már vízen érkeztek be a <b>Szarvasi Ifjúsági Tábor</b> stégjéhez, ami közvetlenül
-    a Holt-Körös partján van. A mederadatokból számolva a folyó a <b>~50,5 fkm</b>-nél közelíti meg legjobban
-    a tábort, és onnan is <b>3,5 km</b> a távolság – vagyis az átemelés utánfutóval megy, nem kézben.
-    Az átemelés pontos helyét (lejáró, parkolás) indulás előtt egyeztetni kell; a térképen a
-    <b>↥</b> jel mutatja a számított pontot.
+    a Holt-Körös partján van. 
   </div>
 
   <div class="warn">
@@ -238,12 +235,10 @@ const P = [
 
  {n:"↥", day:4, lat:46.89953, lon:20.53593, name:"Szarvasi kenuátemelés – kiszállás az élő vízről (kb.)",
   fkm:"Hármas-Körös ~50,5 fkm (bal part)", date:"07.31 – ÁTEMELÉS",
-  type:"ÁTEMELÉSI PONT – helyben egyeztetendő", svc:["kísérőautó ide álljon"],
+  type:"ÁTEMELÉSI PONT", svc:["kísérőautó ide álljon"],
   txt:"Itt közelíti meg legjobban a Holt-Körös az élő folyót – a mederadatokból számolva a tábor "
-     +"innen <b>3,5 km-re</b> van, tehát az átemelés utánfutóval megy, nem kézben. "
+     +"innen <b>50 m-re</b> van, tehát az átemelés kézben. "
      +"Utána a holtágon eveztek be a tábor stégjéhez. "
-     +"<b>A pontos helyet és a lejárót indulás előtt egyeztetni kell</b> a táborral vagy a Körösvölgyi "
-     +"Állatparkkal – ők rendszeresen csinálják.",
   q:"Szarvas Hármas-Körös Holt-Körös átemelés kenu"},
 
  {n:"!", day:0, lat:46.89239, lon:20.50475, name:"Békésszentandrási duzzasztó", fkm:"H ~48 fkm", date:"—",
@@ -270,8 +265,7 @@ const P = [
 
  {n:"•", day:5, lat:46.8760, lon:20.5330, name:"Körösvölgyi Állatpark stég (kb.)",
   fkm:"Holt-Körös", date:"08.01", type:"stég / kölcsönző", svc:["stég","kenu- és kajakkölcsönzés"],
-  txt:"A Körös-Maros Nemzeti Park kölcsönzője kb. 40 vízi járművel. Ők ismerik legjobban az átemelési "
-     +"lehetőségeket is – érdemes velük egyeztetni a 07.31-i beérkezésről.",
+  txt:"A Körös-Maros Nemzeti Park kölcsönzője kb. 40 vízi járművel.",
   q:"Körösvölgyi Állatpark Szarvas stég"},
 
  {n:"C", day:5, lat:46.8730, lon:20.5220, name:"Szarvasi Arborétum (Pepi-kert) – vízi oldal",
@@ -341,7 +335,7 @@ Object.entries(TRACK).forEach(([d, pts]) => {
   approx[d] = drawTrack(d, REAL[d] || pts, d === "5");
 });
 L.polyline(PORTAGE, {color:'#7f8c8d', weight:3, opacity:.95, dashArray:'2,8'})
-  .addTo(layers[4]).bindTooltip('Kenuátemelés utánfutóval a Holt-Körösbe (~3,5 km), majd beevezés a tábor stégjéhez');
+  .addTo(layers[4]).bindTooltip('Kenuátemelés a Holt-Körösbe ( ~ 50m), majd beevezés a tábor stégjéhez');
 
 function icon(p){
   const c = DAYS[p.day].color;
