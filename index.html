@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Körös vízitúra 2026.07.28–08.02. · Szanazug → Szarvasi Ifjúsági Tábor</title>
+<link rel="canonical" href="https://korosok2026.hornyak.info/">
+<meta name="description" content="Körös vízitúra 2026. július 28 – augusztus 2. Szanazug → Szarvasi Ifjúsági Tábor, 78 km élő vízen + holtági nap. Interaktív térkép a valódi medervonallal, megállók, büfék, táborhelyek.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://korosok2026.hornyak.info/">
+<meta property="og:title" content="Körös vízitúra 2026 – Szanazug → Szarvas">
+<meta property="og:description" content="2026.07.28–08.02. · 3 személyes kenuk · 78 km élő vízen + Holt-Körös nap. Interaktív térkép, túraterv PDF, KML és GPX.">
+<meta property="og:locale" content="hu_HU">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#1f5c8b">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ctext y=%2726%27 font-size=%2726%27%3E%F0%9F%9B%B6%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+  :root{
+    --bg:#f6f7f5; --card:#fff; --ink:#1e2a24; --muted:#5d6b64; --line:#dde3df;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+       background:var(--bg);color:var(--ink);line-height:1.5}
+  .wrap{max-width:1200px;margin:0 auto;padding:20px}
+  h1{font-size:24px;margin:0 0 4px}
+  h2{font-size:16px;margin:0 0 10px}
+  .sub{color:var(--muted);font-size:14px;margin-bottom:18px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:16px}
+  #map{height:620px;border-radius:8px;z-index:0}
+  .filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+  .chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:#fff;
+        border-radius:999px;padding:5px 12px;font-size:12.5px;cursor:pointer;user-select:none}
+  .chip input{margin:0;cursor:pointer}
+  .dot{width:11px;height:11px;border-radius:50%;display:inline-block;flex:0 0 auto}
+  .pin{border-radius:50%;color:#fff;font-weight:700;font-size:12px;text-align:center;
+       line-height:24px;width:24px;height:24px;box-shadow:0 1px 4px rgba(0,0,0,.35);border:2px solid #fff}
+  .pin.sq{border-radius:5px}
+  .pop{font-size:13px;min-width:230px;max-width:300px}
+  .pop h3{margin:0 0 4px;font-size:14px}
+  .pop .fkm{color:var(--muted);font-size:12px;margin-bottom:6px}
+  .pop a{color:#2e86c1}
+  .tag{display:inline-block;font-size:11px;background:#eef2ef;border-radius:4px;padding:1px 6px;margin:1px 2px 1px 0}
+  .tag.w{background:#e3f0e6}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#f0f3f1;font-size:11.5px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted)}
+  tr.camp td{background:#f2f8f3}
+  .tl{display:flex;gap:0;flex-wrap:wrap}
+  .tl .d{flex:1 1 150px;border-top:5px solid;padding:8px 10px 10px 0;min-width:150px}
+  .tl .d .dt{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+  .tl .d .nm{font-size:13px;font-weight:700;margin:2px 0}
+  .tl .d .km{font-size:12px;color:var(--muted)}
+  .warn{font-size:12.5px;background:#fdf3f2;border:1px solid #e0b0aa;border-radius:8px;padding:10px 12px;margin-bottom:12px}
+  .info{font-size:12.5px;background:#f2f7fb;border:1px solid #a9c6dc;border-radius:8px;padding:10px 12px;margin-bottom:12px}
+  .note{font-size:12px;color:var(--muted);background:#fffbe8;border:1px solid #f0e2a8;border-radius:8px;padding:10px 12px}
+  .lgnd{font-size:12px;color:var(--muted);margin-top:8px}
+  .lgnd i{display:inline-block;width:22px;height:0;border-top:3px solid;vertical-align:middle;margin:0 5px 0 12px}
+  .status{display:inline-flex;align-items:center;gap:7px;font-size:12px;border-radius:999px;
+          padding:5px 12px;margin-bottom:10px;border:1px solid}
+  .status.load{background:#eef4f8;border-color:#a9c6dc;color:#1f5c8b}
+  .status.ok{background:#eef7f0;border-color:#a9ccb2;color:#1e6b39}
+  .status.fail{background:#fdf3f2;border-color:#e0b0aa;color:#8a3227}
+  .spin{width:11px;height:11px;border:2px solid #a9c6dc;border-top-color:#1f5c8b;border-radius:50%;
+        animation:sp .8s linear infinite;flex:0 0 auto}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  .dlbar{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+  .dl{display:inline-block;text-decoration:none;font-size:13px;font-weight:600;
+      padding:9px 14px;border-radius:8px;border:1px solid #c3d3c8;background:#fff;color:#1e2a24}
+  .dl:hover{background:#f0f5f1}
+  .dl.pdf{background:#1f5c8b;border-color:#1f5c8b;color:#fff}
+  @media(max-width:700px){.dl{flex:1 1 100%;text-align:center}}
+  @media(max-width:700px){#map{height:440px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Körös vízitúra – Szanazug → Szarvasi Ifjúsági Tábor</h1>
+  <div class="sub"><b>2026. július 28. – augusztus 2.</b> · 3 személyes kenuk · 3 evezős nap az élő Körösön (78,0 km)
+    + 1 teljes nap a Szarvasi Holt-Körösön · saját ellátás, csak rövid megállók · szállások lefoglalva</div>
+
+  <div class="dlbar">
+    <a class="dl pdf" href="turaterv.pdf" target="_blank" rel="noopener">📄 Túraterv (PDF)</a>
+    <a class="dl" href="koros-tura.kml" download>🗺️ KML – Google Earth / My Maps</a>
+    <a class="dl" href="koros-tura.gpx" download>📍 GPX – OsmAnd, Locus, Garmin (offline)</a>
+  </div>
+  <div class="card"><div class="tl" id="tl"></div></div>
+
+  <div class="info">
+    <b>Az utolsó szakasz működése:</b> a Szarvasi Holt-Körös le van választva az élő Hármas-Körösről, ezért
+    Szarvas térségében a kenukat <b>át kell emelni</b> a folyóból a holtágba – ez a bevett gyakorlat az itteni
+    túráknál. Az átemelés után már vízen érkeztek be a <b>Szarvasi Ifjúsági Tábor</b> stégjéhez, ami közvetlenül
+    a Holt-Körös partján van. A mederadatokból számolva a folyó a <b>~50,5 fkm</b>-nél közelíti meg legjobban
+    a tábort, és onnan is <b>3,5 km</b> a távolság – vagyis az átemelés utánfutóval megy, nem kézben.
+    Az átemelés pontos helyét (lejáró, parkolás) indulás előtt egyeztetni kell; a térképen a
+    <b>↥</b> jel mutatja a számított pontot.
+  </div>
+
+  <div class="warn">
+    <b>⚠ A 07.29-i nap a leghosszabb:</b> Szanazug → Köröstarcsa <b>30,3 km</b>. Sodrás alig van
+    (békésszentandrási duzzasztás), így 4,5–5 km/h-val ez <b>6,5–7 óra nettó evezés</b>. Saját ellátással,
+    csak rövid megállókkal (10–15 perc) ez ~8 óra. <b>Vízre szállás 7:00-kor.</b>
+    Szerencse, hogy ez a nap a Kettős-Körösre esik – itt van még valamennyi sodrás.
+  </div>
+
+  <div class="card">
+    <div id="status" class="status ok">✔ Valódi OSM-medervonal beépítve</div>
+    <div class="filters" id="filters"></div>
+    <div id="map"></div>
+    <div class="lgnd">
+      <b>Jelmagyarázat:</b>
+      <i style="border-color:#2e86c1"></i>07.29 &nbsp;
+      <i style="border-color:#e67e22"></i>07.30 &nbsp;
+      <i style="border-color:#c0392b"></i>07.31 &nbsp;
+      <i style="border-color:#8e44ad;border-top-style:dashed"></i>08.01 Holt-Körös &nbsp;
+      <i style="border-color:#7f8c8d;border-top-style:dotted"></i>kenuátemelés
+      &nbsp;·&nbsp; Négyzetes jel = <b>táborhely</b>, kör = megálló / büfé / tájékozódási pont.
+      &nbsp;·&nbsp; Jobb felül válthatsz <b>vízi (OpenRiverboatMap)</b> vagy <b>domborzati</b> alaptérképre.
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Megállók, büfék, kiszállók, táborhelyek</h2>
+    <table id="tbl">
+      <thead><tr><th>#</th><th>Hely</th><th>fkm</th><th>Dátum</th><th>Típus</th><th>Szolgáltatás</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <div style="font-size:12px;color:var(--muted);margin-top:8px">A sorra kattintva a térkép ráugrik a pontra.
+      Saját ellátással mentek, így a büfék/kajáldák <b>opcionális</b> megállók – hideg üdítő, jégkrém, WC.</div>
+  </div>
+
+  <div class="note">
+    <b>A nyomvonalról:</b> a 07.29/07.30/07.31-i vonal a Kettős- és a Hármas-Körös <b>valódi
+    OpenStreetMap-medergeometriája</b> (Overpass, 2026-07-02 adatbázis), a fájlba beépítve – nincs futásidejű
+    letöltés, offline is működik. A megállók helyét nem becsültem: a hivatalos <b>folyamkilométerekből</b>
+    számoltam ki a mederen mérve.<br><br>
+    <b>Ellenőrzés:</b> a mért mederhossz Szanazugtól az összefolyásig <b>37,20 km</b>, a hivatalos
+    Kettős-Körös hossz 37,3 fkm. Az fkm-ből számolt pontok a két hivatalos KHESZ GPS-koordinátától
+    <b>139 m</b> (halászlaki vasúti híd) és <b>163 m</b> (Hortobágy-Berettyó torkolat) távolságra esnek.
+    Köröstarcsa faluja a 7,1 fkm-nél, Gyoma belvárosa a 76,7 fkm-nél éri el a folyót – pontosan ahogy a terv
+    számol.<br><br>
+    <b>Ami továbbra is becslés:</b> a Bodoky Bemutatóház, a Félhalmi Horgásztanya és a Békés-Dánfok pontos
+    partmenti helye (a folyón vannak, de az fkm-jük tájékoztató), valamint a holtági pontok. Ezért minden
+    buborékban ott a Google Maps kereső link. A 08.01-i holtági vonal vázlatos (szaggatott).<br><br>
+    Adat: &copy; OpenStreetMap közreműködők, ODbL.
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+const DAYS = {
+  1:{label:"07.28 – Érkezés, Szanazug", color:"#16a085"},
+  2:{label:"07.29 – Szanazug → Köröstarcsa (30,3 km)", color:"#2e86c1"},
+  3:{label:"07.30 – Köröstarcsa → Gyomaendrőd (21,3 km)", color:"#e67e22"},
+  4:{label:"07.31 – Gyomaendrőd → Szarvasi Ifjúsági Tábor (26,5 km)", color:"#c0392b"},
+  5:{label:"08.01 – Szarvasi Holt-Körös, egész nap", color:"#8e44ad"},
+  0:{label:"Tájékozódási / alternatív pont", color:"#7f8c8d"}
+};
+
+const P = [
+ {n:"1", day:1, camp:true, lat:46.70064, lon:21.26868, name:"Szanazug – kemping / Körösök Túraközpont",
+  fkm:"Kettős-Körös 37,3 fkm", date:"07.28 – 1. éjszaka", type:"TÁBORHELY + START",
+  svc:["WC","zuhany","büfé","áram","tűzrakó","homokos strand","fedett közösségi tér","parkoló"],
+  txt:"A Fehér- és Fekete-Körös összefolyásánál. Érkezés napja: kenuk vízre, csomagpakolás, biztonsági eligazítás. "
+     +"Délután opcionális bemelegítő a Fekete-Körösön a Boszorkány-szigethez és Gyula-Városerdőhöz (9–12 km oda-vissza).",
+  q:"Szanazug Doboz kemping Körösök Túraközpont"},
+
+ {n:"•", day:2, lat:46.77121, lon:21.14603, name:"Békési közúti híd", fkm:"K ~28 fkm", date:"07.29",
+  type:"tájékozódási pont", svc:[],
+  txt:"Ez után kb. 2 km-rel indulnak a Samu-kanyarok – a Kettős-Körös legszebb, legkanyargósabb szakasza.",
+  q:"Békés Kettős-Körös közúti híd"},
+
+ {n:"P", day:2, lat:46.75784, lon:21.16265, name:"Békés-Dánfoki Üdülőközpont",
+  fkm:"K ~27,0 fkm (10,3 km a starttól)", date:"07.29 – rövid megálló", type:"lehetséges megálló / büfé",
+  svc:["WC","zuhany","büfé","strand + vízimentő","kikötő 200 m"],
+  txt:"A 30 km-es nap első harmadánál. Saját ellátással mentek, így itt elég egy 10–15 perces lábkinyújtás, "
+     +"WC, esetleg hideg üdítő. Homokos szabadstrand, ha marad idő fürdésre.",
+  q:"Dánfoki Üdülőközpont Békés"},
+
+ {n:"•", day:2, lat:46.76350, lon:21.15247, name:"Bodoky Károly Vízügyi Bemutatóház (kb.)",
+  fkm:"K ~26 fkm", date:"07.29", type:"látnivaló", svc:[],
+  txt:"Rövid partra szállással megnézhető vízügyi bemutatóhely – csak ha jól haladtok.",
+  q:"Bodoky Károly Vízügyi Bemutatóház Békés"},
+
+ {n:"B", day:2, lat:46.85290, lon:21.08639, name:"Mezőberényi híd – büfé + Petőfi-emlékoszlop",
+  fkm:"K ~13 fkm (24,3 km a starttól)", date:"07.29 – rövid megálló", type:"lehetséges megálló / büfé",
+  svc:["árnyékos büfé","pihenőhely","Petőfi-emlékoszlop"],
+  txt:"Árnyékos büfé közvetlenül a parton, mellette a Petőfi-emlékoszlop. Jó hely a napi utolsó "
+     +"vízfeltöltésre – innen már csak 6 km Köröstarcsáig.",
+  q:"Mezőberény Kettős-Körös híd Petőfi emlékoszlop"},
+
+ {n:"2", day:2, camp:true, lat:46.88451, lon:21.03158, name:"Köröstarcsai kishajókikötő – táborhely",
+  fkm:"Kettős-Körös 7,0 fkm", date:"07.29 – 2. éjszaka", type:"TÁBORHELY",
+  svc:["WC","zuhany","büfé","ivóvíz","áram","tűzrakó","bolt a faluban"],
+  txt:"Egykori halászkikötő, sátorhely közvetlenül a vízparton. Jól felszerelt vizesblokk, büfé, "
+     +"tűzgyújtás engedélyezett. Bolt a faluban a másnapi feltöltéshez.",
+  q:"Köröstarcsa kishajókikötő"},
+
+ {n:"★", day:3, lat:46.92026, lon:20.97750, name:"Kettős- és Sebes-Körös összefolyása (Bökény/Félhalom)",
+  fkm:"K 0 = Hármas-Körös 91,3 fkm", date:"07.30 (7 km-nél)", type:"tájékozódási pont – hivatalos GPS",
+  svc:["stég","fürdőhely"],
+  txt:"Innen lefelé a folyó neve Hármas-Körös. Hivatalos GPS: 46°55'12,95\"É / 20°58'38,99\"K. "
+     +"Stég, fürdőhely – klasszikus csoportkép-helyszín.",
+  q:"Kettős-Körös Sebes-Körös összefolyás Bökény"},
+
+ {n:"B", day:3, lat:46.92217, lon:20.96219, name:"Félhalmi Horgásztanya – büfé (kb.)",
+  fkm:"H ~90 fkm", date:"07.30 – rövid megálló", type:"lehetséges megálló / büfé",
+  svc:["árnyékos büfé","hideg üdítő, jégkrém","hivatalos kikötő"],
+  txt:"A KHESZ hivatalos kikötőhelye a Félhalmi-holtág I. szakaszával szemben, a bal parti töltésen belül. "
+     +"Árnyék, jégkrém – 10–15 perc bőven elég.",
+  q:"Félhalmi Horgásztanya Hármas-Körös"},
+
+ {n:"3", day:3, camp:true, lat:46.94574, lon:20.82178, name:"Gyomaendrőd – Csicsergő Vízitúra Megállóhely",
+  fkm:"Hármas-Körös 77,0 fkm (bal part)", date:"07.30 – 3. éjszaka", type:"TÁBORHELY",
+  svc:["WC","zuhany","büfé","úszó stég/mólo","WiFi","ingyenes parkoló","sátorozóhely"],
+  txt:"A gyomai közúti hídnál, bal part. IV–X. között üzemel. A Ligeti Termálfürdő gyalog elérhető – "
+     +"jó lazítás a 21 km után.",
+  q:"Csicsergő Vízitúra Megállóhely Gyomaendrőd"},
+
+ {n:"P", day:4, lat:46.93977, lon:20.63530, name:"Kisörvetői gátőrház",
+  fkm:"Hármas-Körös 61,2 fkm (bal part)", date:"07.31 – rövid megálló (15,8 km-nél)",
+  type:"lehetséges megálló / kiszálló", svc:["WC","zuhany","áram","műanyag stég","árnyékos tölgyes"],
+  txt:"A Hortobágy-Berettyó torkolatánál. Műanyag stég a kiszálláshoz, hatalmas tölgyek árnyékában – "
+     +"a nap egyetlen igazán jó pihenőhelye. Referencia GPS (Hortobágy-Berettyó hajózó ág): "
+     +"46°56'25,35\"É / 20°38'14,13\"K.",
+  q:"Kisörvető gátőrház Hármas-Körös"},
+
+ {n:"B", day:4, lat:46.91317, lon:20.56194, name:"Halászlak – „Harcsa büfé\" (vasúti híd)",
+  fkm:"Hármas-Körös 53,8 fkm (bal part)", date:"07.31 – megálló v. tartalék kiszálló",
+  type:"büfé + ALTERNATÍV átemelési pont – hivatalos GPS",
+  svc:["büfé","WC","1 zuhany","vasúti megálló 100 m"],
+  txt:"Hivatalos GPS: 46°54'47,39\"É / 20°33'43,00\"K. Rövid megálló 23,2 km-nél. "
+     +"<b>Tartalék megoldás:</b> ha a szarvasi átemelés nem járható, itt lehet kiszállni, és a kísérőautó "
+     +"viszi a kenukat a táborba (~12 km közúton). Autós lejáró csak KÖVIZIG gátengedéllyel.",
+  q:"Halászlak Harcsa büfé Szarvas vasúti híd Hármas-Körös"},
+
+ {n:"↥", day:4, lat:46.89953, lon:20.53593, name:"Szarvasi kenuátemelés – kiszállás az élő vízről (kb.)",
+  fkm:"Hármas-Körös ~50,5 fkm (bal part)", date:"07.31 – ÁTEMELÉS",
+  type:"ÁTEMELÉSI PONT – helyben egyeztetendő", svc:["kísérőautó ide álljon"],
+  txt:"Itt közelíti meg legjobban a Holt-Körös az élő folyót – a mederadatokból számolva a tábor "
+     +"innen <b>3,5 km-re</b> van, tehát az átemelés utánfutóval megy, nem kézben. "
+     +"Utána a holtágon eveztek be a tábor stégjéhez. "
+     +"<b>A pontos helyet és a lejárót indulás előtt egyeztetni kell</b> a táborral vagy a Körösvölgyi "
+     +"Állatparkkal – ők rendszeresen csinálják.",
+  q:"Szarvas Hármas-Körös Holt-Körös átemelés kenu"},
+
+ {n:"!", day:0, lat:46.89239, lon:20.50475, name:"Békésszentandrási duzzasztó", fkm:"H ~48 fkm", date:"—",
+  type:"FIGYELEM – vízlépcső, NEM útvonal", svc:[],
+  txt:"Nem érintitek – az átemelés e fölött történik. Ez duzzasztja fel a teljes felettes szakaszt "
+     +"(ezért nincs sodrás), és innen megy a Holt-Körös szivornyás vízcseréje.",
+  q:"Békésszentandrási duzzasztó"},
+
+
+ {n:"4", day:4, camp:true, lat:46.8720, lon:20.5580,
+  name:"Szarvasi Ifjúsági Tábor – VÉGPONT és táborhely (2 éjszaka)",
+  fkm:"Szarvasi Holt-Körös", date:"07.31 + 08.01 – 4. és 5. éjszaka",
+  type:"VÉGPONT + TÁBORHELY", svc:["WC","közös zuhanyzók","sátorozás","3 nagy stég","40 m vízparti szakasz","tábortűzhely","sportpálya","filagória"],
+  txt:"5540 Szarvas, Erzsébet-liget. Közvetlenül a Holt-Körös partján, 40 m széles saját vízparti szakasszal "
+     +"és 3 nagy stéggel – a kenuk itt maradnak, másnap innen indul a holtági nap. Lehatárolt sekély vizes rész, "
+     +"tábortűzhely. Tel.: +36 20 480 1761 · tabor@szarvas.hu",
+  q:"Szarvasi Ifjúsági Tábor Erzsébet-liget Szarvas"},
+
+ {n:"•", day:5, lat:46.8700, lon:20.5515, name:"Erzsébet-liget fahídja + mocsárciprusok (kb.)",
+  fkm:"Holt-Körös", date:"08.01", type:"látnivaló a vízről", svc:[],
+  txt:"A holtág egyik legfotogénebb pontja: a liget fahídja és a híres mocsárciprus-csoport a vízparton. "
+     +"Pár perc a tábortól.",
+  q:"Erzsébet-liget Szarvas fahíd mocsárciprus"},
+
+ {n:"•", day:5, lat:46.8760, lon:20.5330, name:"Körösvölgyi Állatpark stég (kb.)",
+  fkm:"Holt-Körös", date:"08.01", type:"stég / kölcsönző", svc:["stég","kenu- és kajakkölcsönzés"],
+  txt:"A Körös-Maros Nemzeti Park kölcsönzője kb. 40 vízi járművel. Ők ismerik legjobban az átemelési "
+     +"lehetőségeket is – érdemes velük egyeztetni a 07.31-i beérkezésről.",
+  q:"Körösvölgyi Állatpark Szarvas stég"},
+
+ {n:"C", day:5, lat:46.8730, lon:20.5220, name:"Szarvasi Arborétum (Pepi-kert) – vízi oldal",
+  fkm:"Holt-Körös", date:"08.01 – fordulópont", type:"FŐ CÉL / látnivaló", svc:[],
+  txt:"A holtági nap természetes fordulópontja, oda-vissza kb. 8–10 km a tábortól. "
+     +"Útközben Bolza-kastély, Szarvasi Vízi Színház. Aki többet akar: a holtág 29,2 km hosszú, "
+     +"felfelé Békésszentandrás felé még ~15 km-t lehet tekeregni.",
+  q:"Szarvasi Arborétum Pepi-kert"},
+
+ {n:"•", day:5, lat:46.8660, lon:20.5060, name:"Bikazug / holtág felső szakasz (kb.)",
+  fkm:"Holt-Körös", date:"08.01 – hosszú változat", type:"hosszabbítás", svc:[],
+  txt:"Ha marad erő: a Kákafoki-holtág csendesebb, vadregényes szakasza Békésszentandrás felé. "
+     +"Nulla sodrás – mocsári teknősök, jégmadarak, tőkés récék.",
+  q:"Bikazug holtág Szarvas"}
+];
+
+const REAL = {"2":[[46.70064,21.26868],[46.70136,21.26692],[46.70227,21.26534],[46.71342,21.24531],[46.71672,21.23903],[46.72323,21.22661],[46.75959,21.15942],[46.76175,21.15573],[46.76175,21.15572],[46.76229,21.15472],[46.76259,21.15416],[46.76356,21.15236],[46.7645,21.15085],[46.76742,21.1482],[46.77135,21.14595],[46.77661,21.1445],[46.79725,21.13719],[46.79803,21.13692],[46.8006,21.13612],[46.801,21.13599],[46.80155,21.13555],[46.80177,21.13527],[46.80207,21.13433],[46.80214,21.13307],[46.80212,21.1306],[46.80308,21.12564],[46.80372,21.12464],[46.80489,21.12315],[46.80714,21.12115],[46.80923,21.1202],[46.81135,21.12016],[46.81176,21.12011],[46.81213,21.11992],[46.81246,21.11964],[46.81276,21.11922],[46.81298,21.11867],[46.81315,21.11798],[46.81324,21.11716],[46.81319,21.11563],[46.81323,21.11459],[46.81335,21.11373],[46.81355,21.1131],[46.81437,21.11201],[46.81543,21.11167],[46.81618,21.11193],[46.81665,21.11272],[46.81747,21.1142],[46.81808,21.11466],[46.81899,21.11511],[46.8203,21.11503],[46.82158,21.11469],[46.82342,21.11386],[46.82507,21.11216],[46.82686,21.10936],[46.82734,21.10914],[46.82782,21.10899],[46.82825,21.10899],[46.8287,21.10916],[46.82909,21.10923],[46.82966,21.10911],[46.83062,21.10866],[46.83112,21.10851],[46.83249,21.10838],[46.83369,21.10848],[46.83529,21.10916],[46.83578,21.10914],[46.83649,21.10885],[46.83769,21.10782],[46.83889,21.10708],[46.83944,21.10699],[46.84189,21.10766],[46.84257,21.10762],[46.84292,21.10699],[46.84358,21.10528],[46.84396,21.10431],[46.84433,21.10336],[46.8447,21.10235],[46.84544,21.10128],[46.84582,21.10056],[46.84596,21.09994],[46.84603,21.09932],[46.84609,21.09722],[46.84674,21.09361],[46.84686,21.09324],[46.84697,21.09301],[46.8471,21.09284],[46.84733,21.09265],[46.84761,21.09252],[46.84787,21.09249],[46.84808,21.09259],[46.84853,21.09282],[46.84902,21.09325],[46.85031,21.09488],[46.8507,21.09497],[46.8511,21.09477],[46.85139,21.09445],[46.85194,21.09286],[46.85256,21.09122],[46.85296,21.08973],[46.85302,21.0882],[46.85288,21.08614],[46.85291,21.08409],[46.85321,21.08111],[46.85378,21.07843],[46.85626,21.07318],[46.8578,21.07159],[46.8593,21.07016],[46.86063,21.06743],[46.86116,21.06642],[46.8631,21.06446],[46.86413,21.06404],[46.86563,21.06412],[46.86681,21.06327],[46.8678,21.0623],[46.86927,21.05939],[46.86978,21.05652],[46.8701,21.05547],[46.87092,21.05411],[46.87229,21.0526],[46.87353,21.05214],[46.87493,21.05176],[46.87713,21.05009],[46.87774,21.04907],[46.87841,21.04546],[46.87878,21.04322],[46.8788,21.04312],[46.87895,21.03677],[46.87926,21.03576],[46.87976,21.03496],[46.88146,21.0339],[46.88244,21.03348],[46.88437,21.03161],[46.88451,21.03158]],"3":[[46.88451,21.03158],[46.88529,21.03144],[46.88583,21.0316],[46.8864,21.03183],[46.88748,21.033],[46.88876,21.03419],[46.88918,21.03444],[46.88965,21.03454],[46.89023,21.0344],[46.89059,21.03409],[46.89334,21.0306],[46.89345,21.03046],[46.89575,21.02797],[46.89627,21.02592],[46.89726,21.02038],[46.89827,21.01605],[46.89853,21.01492],[46.89986,21.01186],[46.90145,21.00932],[46.90221,21.00839],[46.90356,21.00763],[46.90401,21.00769],[46.90449,21.00817],[46.90476,21.00878],[46.90498,21.00968],[46.90582,21.01007],[46.90666,21.01],[46.90746,21.00912],[46.90792,21.00797],[46.9084,21.00386],[46.90889,21.00289],[46.90975,21.00264],[46.91183,21.003],[46.91239,21.00272],[46.913,21.00179],[46.91346,21.00086],[46.91365,20.99981],[46.91373,20.99878],[46.91373,20.99821],[46.91367,20.99387],[46.91391,20.99115],[46.91432,20.98947],[46.9183,20.98147],[46.91925,20.97997],[46.91994,20.97805],[46.92007,20.97763],[46.92012,20.97718],[46.91989,20.97546],[46.91895,20.97],[46.91895,20.96838],[46.91906,20.96705],[46.91919,20.9665],[46.91941,20.96595],[46.92002,20.96505],[46.92147,20.9635],[46.92795,20.95137],[46.92822,20.95081],[46.92842,20.95014],[46.93302,20.92832],[46.93316,20.92751],[46.93318,20.92664],[46.93313,20.92593],[46.93262,20.91959],[46.93255,20.91685],[46.93229,20.9158],[46.93015,20.91252],[46.929,20.90981],[46.92859,20.908],[46.92854,20.90677],[46.92872,20.90016],[46.92868,20.89875],[46.9274,20.89548],[46.92676,20.89213],[46.92675,20.88818],[46.92712,20.88697],[46.92768,20.88645],[46.93007,20.88639],[46.93053,20.88612],[46.93099,20.88574],[46.93115,20.88517],[46.93106,20.88451],[46.93028,20.88314],[46.93007,20.88244],[46.93009,20.88147],[46.93038,20.88069],[46.93201,20.87897],[46.93283,20.87728],[46.93339,20.87462],[46.93362,20.87105],[46.93327,20.86952],[46.93192,20.86583],[46.93168,20.86461],[46.93177,20.86331],[46.93191,20.86217],[46.93254,20.8604],[46.9331,20.85938],[46.93407,20.85837],[46.93451,20.85808],[46.93565,20.85791],[46.93671,20.85792],[46.93748,20.85772],[46.93822,20.85742],[46.94029,20.85537],[46.94127,20.85406],[46.94213,20.85203],[46.94249,20.85118],[46.94434,20.84659],[46.94522,20.84492],[46.94636,20.84264],[46.94762,20.84089],[46.94937,20.83898],[46.95018,20.83808],[46.95072,20.83716],[46.95092,20.83653],[46.951,20.83554],[46.95085,20.83444],[46.95047,20.83311],[46.94925,20.83046],[46.9478,20.82508],[46.94701,20.8235],[46.94574,20.82178]],"4":[[46.94574,20.82178],[46.94344,20.81865],[46.9424,20.81632],[46.94135,20.81308],[46.94118,20.81221],[46.94103,20.8106],[46.94181,20.80517],[46.9419,20.80415],[46.94184,20.80319],[46.94126,20.80047],[46.9402,20.79705],[46.93983,20.79526],[46.93946,20.79322],[46.93711,20.77067],[46.93639,20.76708],[46.93515,20.76428],[46.9336,20.76238],[46.93303,20.76188],[46.9322,20.76175],[46.93102,20.76202],[46.93031,20.76209],[46.92976,20.76189],[46.92947,20.76137],[46.9291,20.7603],[46.92901,20.75957],[46.92902,20.75783],[46.92947,20.75401],[46.92976,20.74935],[46.92915,20.74536],[46.92827,20.74125],[46.9281,20.74022],[46.92814,20.7388],[46.92911,20.73629],[46.93043,20.73327],[46.93155,20.73027],[46.93196,20.72861],[46.93198,20.72671],[46.93174,20.72516],[46.93138,20.72383],[46.93046,20.72221],[46.9303,20.72129],[46.93043,20.72027],[46.93199,20.71231],[46.93311,20.70573],[46.93862,20.67399],[46.93969,20.66773],[46.93999,20.66509],[46.94052,20.66121],[46.94029,20.65845],[46.94042,20.65704],[46.94079,20.65574],[46.94127,20.65522],[46.94187,20.65494],[46.944,20.65432],[46.94463,20.6538],[46.94496,20.65334],[46.94509,20.6526],[46.94503,20.65163],[46.94466,20.65063],[46.94291,20.64791],[46.9425,20.64721],[46.94231,20.64682],[46.94209,20.64613],[46.94189,20.64541],[46.93997,20.6362],[46.93946,20.63388],[46.93931,20.63294],[46.9392,20.63198],[46.9392,20.6311],[46.93921,20.62978],[46.93942,20.62763],[46.93954,20.62326],[46.93943,20.61968],[46.93938,20.61907],[46.93928,20.61851],[46.93915,20.61799],[46.93893,20.61755],[46.93473,20.61236],[46.93304,20.60981],[46.93179,20.60702],[46.93115,20.60633],[46.93018,20.60581],[46.92966,20.60567],[46.92887,20.6056],[46.92812,20.6062],[46.92727,20.60659],[46.9261,20.60631],[46.92257,20.60388],[46.91884,20.59953],[46.91857,20.5991],[46.91846,20.59892],[46.91836,20.59875],[46.91684,20.5964],[46.91632,20.59545],[46.91274,20.58908],[46.91262,20.58883],[46.91257,20.58856],[46.9123,20.58743],[46.91208,20.5856],[46.91198,20.58376],[46.9132,20.56099],[46.9133,20.5601],[46.91345,20.55962],[46.91365,20.55913],[46.91387,20.55872],[46.91545,20.55702],[46.91668,20.55498],[46.91688,20.55419],[46.91694,20.55339],[46.91663,20.55174],[46.91487,20.5466],[46.91424,20.54598],[46.91352,20.54576],[46.91238,20.54601],[46.91056,20.54664],[46.90781,20.54648],[46.90619,20.54578],[46.90485,20.54485],[46.90245,20.54098],[46.90204,20.54041],[46.90097,20.53911],[46.90017,20.53769],[46.89986,20.53694],[46.89958,20.53612],[46.89953,20.53593]]};
+
+const TRACK = {
+ 2:[[46.7186,21.2261],[46.7255,21.2100],[46.7300,21.1930],[46.7395,21.1810],[46.7480,21.1700],
+    [46.7560,21.1560],[46.7660,21.1450],[46.7740,21.1360],[46.7793,21.1305],[46.7860,21.1200],
+    [46.7897,21.1122],[46.7935,21.1040],[46.7990,21.0960],[46.8080,21.0900],[46.8175,21.0830],
+    [46.8265,21.0740],[46.8360,21.0660],[46.8455,21.0570],[46.8540,21.0470],[46.8600,21.0400],
+    [46.8660,21.0345],[46.8710,21.0310],[46.8747,21.0339]],
+ 3:[[46.8747,21.0339],[46.8800,21.0290],[46.8860,21.0210],[46.8905,21.0110],[46.8945,21.0010],
+    [46.8990,20.9930],[46.9060,20.9870],[46.9140,20.9820],[46.92026,20.97750],
+    [46.9225,20.9680],[46.9230,20.9600],[46.9250,20.9480],[46.9290,20.9340],[46.9330,20.9190],
+    [46.9345,20.9020],[46.9330,20.8850],[46.9345,20.8680],[46.9375,20.8520],[46.9370,20.8390],
+    [46.9350,20.8280]],
+ 4:[[46.9350,20.8280],[46.9375,20.8150],[46.9420,20.8010],[46.9455,20.7860],[46.9460,20.7690],
+    [46.9430,20.7530],[46.9440,20.7360],[46.9480,20.7200],[46.9490,20.7040],[46.9455,20.6890],
+    [46.9420,20.6740],[46.9410,20.6580],[46.9400,20.6380],[46.9370,20.6220],[46.9320,20.6080],
+    [46.9255,20.5960],[46.9200,20.5830],[46.9160,20.5700],[46.91317,20.56194],
+    [46.9075,20.5570],[46.9030,20.5540],[46.8990,20.5520]],
+ 5:[[46.8720,20.5580],[46.8705,20.5520],[46.8690,20.5470],[46.8700,20.5420],[46.8730,20.5370],
+    [46.8760,20.5330],[46.8770,20.5290],[46.8750,20.5250],[46.8730,20.5220],[46.8700,20.5170],
+    [46.8670,20.5120],[46.8660,20.5060]]
+};
+/* kenuátemelés: kiszállás az élő vízről -> beevezés a holtágon a táborhoz */
+const PORTAGE = [[46.89953,20.53593],[46.8965,20.5410],[46.8930,20.5470],[46.8880,20.5530],
+                 [46.8820,20.5560],[46.8770,20.5575],[46.8720,20.5580]];
+
+const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  {maxZoom:18, attribution:'&copy; OpenStreetMap közreműködők'});
+const river = L.tileLayer('https://{s}.tile.openstreetmap.fr/openriverboatmap/{z}/{x}/{y}.png',
+  {maxZoom:18, attribution:'&copy; OpenStreetMap közreműködők · OpenRiverboatMap'});
+const topo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+  {maxZoom:17, attribution:'&copy; OpenTopoMap · OpenStreetMap közreműködők'});
+
+const map = L.map('map', {scrollWheelZoom:true, layers:[osm]}).setView([46.90,20.88], 10);
+L.control.layers({"Alap (OSM)":osm, "Vízi (OpenRiverboatMap)":river, "Domborzat (OpenTopoMap)":topo},
+  null, {position:'topright'}).addTo(map);
+
+const layers = {};
+Object.keys(DAYS).forEach(k => layers[k] = L.layerGroup().addTo(map));
+
+const approx = {};   /* a vázlatos vonalak – ha megjön a valódi meder, ezeket lecseréljük */
+function drawTrack(d, pts, dashed){
+  const c = DAYS[d].color;
+  const halo = L.polyline(pts, {color:'#ffffff', weight:8, opacity:.55}).addTo(layers[d]);
+  const main = L.polyline(pts, {color:c, weight:4.2, opacity:.95, dashArray: dashed ? '9,7' : null})
+    .addTo(layers[d]).bindTooltip(DAYS[d].label, {sticky:true});
+  return [halo, main];
+}
+/* 2-3-4. nap: VALÓDI OSM medervonal (beépítve) · 5. nap: vázlatos holtági kör */
+Object.entries(TRACK).forEach(([d, pts]) => {
+  approx[d] = drawTrack(d, REAL[d] || pts, d === "5");
+});
+L.polyline(PORTAGE, {color:'#7f8c8d', weight:3, opacity:.95, dashArray:'2,8'})
+  .addTo(layers[4]).bindTooltip('Kenuátemelés utánfutóval a Holt-Körösbe (~3,5 km), majd beevezés a tábor stégjéhez');
+
+function icon(p){
+  const c = DAYS[p.day].color;
+  return L.divIcon({html:`<div class="pin${p.camp?' sq':''}" style="background:${c}">${p.n}</div>`,
+    className:'', iconSize:[24,24], iconAnchor:[12,12]});
+}
+const mrk = {};
+P.forEach((p,i) => {
+  const svc = p.svc.length ? '<div style="margin-top:5px">'+p.svc.map(s=>`<span class="tag w">${s}</span>`).join('')+'</div>' : '';
+  const gm = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.q)}`;
+  const html = `<div class="pop"><h3>${p.name}</h3>
+    <div class="fkm">${p.fkm} · <b>${p.date}</b><br>${p.type}</div>
+    <div>${p.txt}</div>${svc}
+    <div style="margin-top:7px"><a href="${gm}" target="_blank" rel="noopener">Megnyitás Google Maps-ben →</a></div></div>`;
+  const m = L.marker([p.lat,p.lon], {icon:icon(p), zIndexOffset: p.camp?1000:0}).bindPopup(html);
+  m.addTo(layers[p.day]); mrk[i] = m;
+});
+
+const fbox = document.getElementById('filters');
+Object.entries(DAYS).forEach(([k,v]) => {
+  const l = document.createElement('label');
+  l.className = 'chip';
+  l.innerHTML = `<input type="checkbox" checked data-k="${k}"><span class="dot" style="background:${v.color}"></span>${v.label}`;
+  l.querySelector('input').addEventListener('change', e => {
+    const key = e.target.dataset.k;
+    e.target.checked ? map.addLayer(layers[key]) : map.removeLayer(layers[key]);
+  });
+  fbox.appendChild(l);
+});
+
+const TL = [
+ {d:"07.28 kedd",  n:"Érkezés – Szanazug", k:"alvás: Szanazug kemping", c:"#16a085"},
+ {d:"07.29 szerda",n:"Szanazug → Köröstarcsa", k:"30,3 km ⚠ · alvás: Köröstarcsa", c:"#2e86c1"},
+ {d:"07.30 csüt.", n:"Köröstarcsa → Gyomaendrőd", k:"21,3 km · alvás: Csicsergő", c:"#e67e22"},
+ {d:"07.31 péntek",n:"Gyomaendrőd → Szarvasi Ifjúsági Tábor", k:"26,5 km + átemelés · alvás: Szarvas", c:"#c0392b"},
+ {d:"08.01 szo.",  n:"Szarvasi Holt-Körös", k:"10–20 km laza · alvás: Szarvas", c:"#8e44ad"},
+ {d:"08.02 vas.",  n:"Pakolás, hazaút", k:"—", c:"#95a5a6"}
+];
+const tl = document.getElementById('tl');
+TL.forEach(x=>{
+  const d = document.createElement('div');
+  d.className='d'; d.style.borderTopColor=x.c;
+  d.innerHTML = `<div class="dt">${x.d}</div><div class="nm">${x.n}</div><div class="km">${x.k}</div>`;
+  tl.appendChild(d);
+});
+
+/* A 2-3-4. napi nyomvonal a REAL konstansban van, a valódi OSM medergeometriából
+   (Overpass, 2026-07-02). Nincs futásidejű letöltés – offline is működik. */
+(function(){
+  const e=document.getElementById('status');
+  e.className='status ok';
+  e.innerHTML='\u2714 A nyomvonal a <b>valódi OSM-medervonalra</b> illesztve, a fájlba beépítve '
+    +'(nincs letöltés, offline is m\u0171k\u00f6dik). Ellen\u0151rizve: a folyamkilom\u00e9terb\u0151l sz\u00e1molt pontok '
+    +'139 \u00e9s 163 m-re esnek a k\u00e9t hivatalos KHESZ GPS-koordin\u00e1t\u00e1t\u00f3l.';
+})();
+
+const tb = document.querySelector('#tbl tbody');
+P.forEach((p,i)=>{
+  const tr = document.createElement('tr');
+  if(p.camp) tr.className='camp';
+  tr.innerHTML = `<td><span class="pin${p.camp?' sq':''}" style="background:${DAYS[p.day].color};display:inline-block">${p.n}</span></td>
+    <td><b>${p.name}</b></td><td>${p.fkm}</td><td>${p.date}</td><td>${p.type}</td>
+    <td>${p.svc.map(s=>`<span class="tag">${s}</span>`).join(' ')||'–'}</td>`;
+  tr.style.cursor='pointer';
+  tr.addEventListener('click',()=>{map.setView([p.lat,p.lon],13); mrk[i].openPopup();});
+  tb.appendChild(tr);
+});
+</script>
+</body>
+</html>
