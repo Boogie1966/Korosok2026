@@ -45,25 +45,17 @@
   table{width:100%;border-collapse:collapse;font-size:13px}
   th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
   th{background:#f0f3f1;font-size:11.5px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted)}
+  td.dkm{white-space:nowrap;font-weight:600}
   tr.camp td{background:#f2f8f3}
   .tl{display:flex;gap:0;flex-wrap:wrap}
   .tl .d{flex:1 1 150px;border-top:5px solid;padding:8px 10px 10px 0;min-width:150px}
   .tl .d .dt{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
   .tl .d .nm{font-size:13px;font-weight:700;margin:2px 0}
   .tl .d .km{font-size:12px;color:var(--muted)}
-  .warn{font-size:12.5px;background:#fdf3f2;border:1px solid #e0b0aa;border-radius:8px;padding:10px 12px;margin-bottom:12px}
   .info{font-size:12.5px;background:#f2f7fb;border:1px solid #a9c6dc;border-radius:8px;padding:10px 12px;margin-bottom:12px}
   .note{font-size:12px;color:var(--muted);background:#fffbe8;border:1px solid #f0e2a8;border-radius:8px;padding:10px 12px}
   .lgnd{font-size:12px;color:var(--muted);margin-top:8px}
   .lgnd i{display:inline-block;width:22px;height:0;border-top:3px solid;vertical-align:middle;margin:0 5px 0 12px}
-  .status{display:inline-flex;align-items:center;gap:7px;font-size:12px;border-radius:999px;
-          padding:5px 12px;margin-bottom:10px;border:1px solid}
-  .status.load{background:#eef4f8;border-color:#a9c6dc;color:#1f5c8b}
-  .status.ok{background:#eef7f0;border-color:#a9ccb2;color:#1e6b39}
-  .status.fail{background:#fdf3f2;border-color:#e0b0aa;color:#8a3227}
-  .spin{width:11px;height:11px;border:2px solid #a9c6dc;border-top-color:#1f5c8b;border-radius:50%;
-        animation:sp .8s linear infinite;flex:0 0 auto}
-  @keyframes sp{to{transform:rotate(360deg)}}
   .dlbar{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
   .dl{display:inline-block;text-decoration:none;font-size:13px;font-weight:600;
       padding:9px 14px;border-radius:8px;border:1px solid #c3d3c8;background:#fff;color:#1e2a24}
@@ -91,18 +83,10 @@
     <b>Az utolsó szakasz működése:</b> a Szarvasi Holt-Körös le van választva az élő Hármas-Körösről, ezért
     Szarvas térségében a kenukat <b>át kell emelni</b> a folyóból a holtágba (kb 50 m) – ez a bevett gyakorlat az itteni
     túráknál. Az átemelés után már vízen érkeztek be a <b>Szarvasi Ifjúsági Tábor</b> stégjéhez, ami közvetlenül
-    a Holt-Körös partján van. 
-  </div>
-
-  <div class="warn">
-    <b>⚠ A 07.29-i nap a leghosszabb:</b> Szanazug → Köröstarcsa <b>30,3 km</b>. Sodrás alig van
-    (békésszentandrási duzzasztás), így 4,5–5 km/h-val ez <b>6,5–7 óra nettó evezés</b>. Saját ellátással,
-    csak rövid megállókkal (10–15 perc) ez ~8 óra. <b>Vízre szállás korán.</b>
-    Szerencse, hogy ez a nap a Kettős-Körösre esik – itt van még valamennyi sodrás.
+    a Holt-Körös partján van.
   </div>
 
   <div class="card">
-    <div id="status" class="status ok">✔ Valódi OSM-medervonal beépítve</div>
     <div class="filters" id="filters"></div>
     <div id="map"></div>
     <div class="lgnd">
@@ -120,26 +104,17 @@
   <div class="card">
     <h2>Megállók, büfék, kiszállók, táborhelyek</h2>
     <table id="tbl">
-      <thead><tr><th>#</th><th>Hely</th><th>fkm</th><th>Dátum</th><th>Típus</th><th>Szolgáltatás</th></tr></thead>
+      <thead><tr><th>#</th><th>Hely</th><th>Aznap a starttól</th><th>fkm</th><th>Dátum</th><th>Típus</th><th>Szolgáltatás</th></tr></thead>
       <tbody></tbody>
     </table>
     <div style="font-size:12px;color:var(--muted);margin-top:8px">A sorra kattintva a térkép ráugrik a pontra.
+      Az <b>„Aznap a starttól”</b> oszlop azt mutatja, hány km-t kell aznap evezni az aznapi indulóponttól addig a pontig.
       Saját ellátással mentek, így a büfék/kajáldák <b>opcionális</b> megállók – hideg üdítő, jégkrém, WC.</div>
   </div>
 
   <div class="note">
-    <b>A nyomvonalról:</b> a 07.29/07.30/07.31-i vonal a Kettős- és a Hármas-Körös <b>valódi
-    OpenStreetMap-medergeometriája</b> (Overpass, 2026-07-02 adatbázis), a fájlba beépítve – nincs futásidejű
-    letöltés, offline is működik. A megállók helyét nem becsültem: a hivatalos <b>folyamkilométerekből</b>
-    számoltam ki a mederen mérve.<br><br>
-    <b>Ellenőrzés:</b> a mért mederhossz Szanazugtól az összefolyásig <b>37,20 km</b>, a hivatalos
-    Kettős-Körös hossz 37,3 fkm. Az fkm-ből számolt pontok a két hivatalos KHESZ GPS-koordinátától
-    <b>139 m</b> (halászlaki vasúti híd) és <b>163 m</b> (Hortobágy-Berettyó torkolat) távolságra esnek.
-    Köröstarcsa faluja a 7,1 fkm-nél, Gyoma belvárosa a 76,7 fkm-nél éri el a folyót – pontosan ahogy a terv
-    számol.<br><br>
-    <b>Ami továbbra is becslés:</b> a Bodoky Bemutatóház, a Félhalmi Horgásztanya és a Békés-Dánfok pontos
-    partmenti helye (a folyón vannak, de az fkm-jük tájékoztató), valamint a holtági pontok. Ezért minden
-    buborékban ott a Google Maps kereső link. A 08.01-i holtági vonal vázlatos (szaggatott).<br><br>
+    <b>Figyelem – a holtági nap:</b> a <b>Holt-Körös (Szarvas) útvonala a térképen nem helyes</b> – ne vegyétek figyelembe.
+    A 08.01-i szaggatott lila vonal csak vázlat, a valós holtági nyomvonalat a helyszínen egyeztetjük.<br><br>
     Adat: &copy; OpenStreetMap közreműködők, ODbL.
   </div>
 
@@ -158,90 +133,90 @@ const DAYS = {
 
 const P = [
  {n:"1", day:1, camp:true, lat:46.70064, lon:21.26868, name:"Szanazug – kemping / Körösök Túraközpont",
-  fkm:"Kettős-Körös 37,3 fkm", date:"07.28 – 1. éjszaka", type:"TÁBORHELY + START",
+  fkm:"Kettős-Körös 37,3 fkm", dkm:"start (0 km)", date:"07.28 – 1. éjszaka", type:"TÁBORHELY + START",
   svc:["WC","zuhany","büfé","áram","tűzrakó","homokos strand","fedett közösségi tér","parkoló"],
   txt:"A Fehér- és Fekete-Körös összefolyásánál. Érkezés napja: kenuk vízre, csomagpakolás, biztonsági eligazítás. "
      +"Délután opcionális bemelegítő a Fekete-Körösön a Boszorkány-szigethez és Gyula-Városerdőhöz (9–12 km oda-vissza).",
   q:"Szanazug Doboz kemping Körösök Túraközpont"},
 
- {n:"•", day:2, lat:46.77121, lon:21.14603, name:"Békési közúti híd", fkm:"K ~28 fkm", date:"07.29",
-  type:"tájékozódási pont", svc:[],
-  txt:"Ez után kb. 2 km-rel indulnak a Samu-kanyarok – a Kettős-Körös legszebb, legkanyargósabb szakasza.",
-  q:"Békés Kettős-Körös közúti híd"},
-
  {n:"P", day:2, lat:46.75784, lon:21.16265, name:"Békés-Dánfoki Üdülőközpont",
-  fkm:"K ~27,0 fkm (10,3 km a starttól)", date:"07.29 – rövid megálló", type:"lehetséges megálló / büfé",
+  fkm:"K ~27,0 fkm", dkm:"10,3 km", date:"07.29 – rövid megálló", type:"lehetséges megálló / büfé",
   svc:["WC","zuhany","büfé","strand + vízimentő","kikötő 200 m"],
-  txt:"A 30 km-es nap első harmadánál. Saját ellátással mentek, így itt elég egy 10–15 perces lábkinyújtás, "
+  txt:"A 30 km-es nap első harmadánál, az aznapi starttól 10,3 km. Saját ellátással mentek, így itt elég egy 10–15 perces lábkinyújtás, "
      +"WC, esetleg hideg üdítő. Homokos szabadstrand, ha marad idő fürdésre.",
   q:"Dánfoki Üdülőközpont Békés"},
 
  {n:"•", day:2, lat:46.76350, lon:21.15247, name:"Bodoky Károly Vízügyi Bemutatóház (kb.)",
-  fkm:"K ~26 fkm", date:"07.29", type:"látnivaló", svc:[],
-  txt:"Rövid partra szállással megnézhető vízügyi bemutatóhely – csak ha jól haladtok.",
+  fkm:"K ~26 fkm", dkm:"11,3 km", date:"07.29", type:"látnivaló", svc:[],
+  txt:"Rövid partra szállással megnézhető vízügyi bemutatóhely – csak ha jól haladtok. Aznapi starttól 11,3 km.",
   q:"Bodoky Károly Vízügyi Bemutatóház Békés"},
 
+ {n:"•", day:2, lat:46.77121, lon:21.14603, name:"Békési közúti híd", fkm:"K ~28 fkm", dkm:"12,3 km", date:"07.29",
+  type:"tájékozódási pont", svc:[],
+  txt:"Aznapi starttól 12,3 km. Ez után kb. 2 km-rel indulnak a Samu-kanyarok – a Kettős-Körös legszebb, legkanyargósabb szakasza.",
+  q:"Békés Kettős-Körös közúti híd"},
+
  {n:"B", day:2, lat:46.85290, lon:21.08639, name:"Mezőberényi híd – büfé + Petőfi-emlékoszlop",
-  fkm:"K ~13 fkm (24,3 km a starttól)", date:"07.29 – rövid megálló", type:"lehetséges megálló / büfé",
+  fkm:"K ~13 fkm", dkm:"24,3 km", date:"07.29 – rövid megálló", type:"lehetséges megálló / büfé",
   svc:["árnyékos büfé","pihenőhely","Petőfi-emlékoszlop"],
-  txt:"Árnyékos büfé közvetlenül a parton, mellette a Petőfi-emlékoszlop. Jó hely a napi utolsó "
+  txt:"Árnyékos büfé közvetlenül a parton, mellette a Petőfi-emlékoszlop. Aznapi starttól 24,3 km. Jó hely a napi utolsó "
      +"vízfeltöltésre – innen már csak 6 km Köröstarcsáig.",
   q:"Mezőberény Kettős-Körös híd Petőfi emlékoszlop"},
 
  {n:"2", day:2, camp:true, lat:46.88451, lon:21.03158, name:"Köröstarcsai kishajókikötő – táborhely",
-  fkm:"Kettős-Körös 7,0 fkm", date:"07.29 – 2. éjszaka", type:"TÁBORHELY",
+  fkm:"Kettős-Körös 7,0 fkm", dkm:"30,3 km (napi cél)", date:"07.29 – 2. éjszaka", type:"TÁBORHELY",
   svc:["WC","zuhany","büfé","ivóvíz","áram","tűzrakó","bolt a faluban"],
   txt:"Egykori halászkikötő, sátorhely közvetlenül a vízparton. Jól felszerelt vizesblokk, büfé, "
      +"tűzgyújtás engedélyezett. Bolt a faluban a másnapi feltöltéshez.",
   q:"Köröstarcsa kishajókikötő"},
 
  {n:"★", day:3, lat:46.92026, lon:20.97750, name:"Kettős- és Sebes-Körös összefolyása (Bökény/Félhalom)",
-  fkm:"K 0 = Hármas-Körös 91,3 fkm", date:"07.30 (7 km-nél)", type:"tájékozódási pont – hivatalos GPS",
+  fkm:"K 0 = Hármas-Körös 91,3 fkm", dkm:"7,0 km", date:"07.30", type:"tájékozódási pont – hivatalos GPS",
   svc:["stég","fürdőhely"],
-  txt:"Innen lefelé a folyó neve Hármas-Körös. Hivatalos GPS: 46°55'12,95\"É / 20°58'38,99\"K. "
+  txt:"Aznapi starttól 7,0 km. Innen lefelé a folyó neve Hármas-Körös. Hivatalos GPS: 46°55'12,95\"É / 20°58'38,99\"K. "
      +"Stég, fürdőhely – klasszikus csoportkép-helyszín.",
   q:"Kettős-Körös Sebes-Körös összefolyás Bökény"},
 
  {n:"B", day:3, lat:46.92217, lon:20.96219, name:"Félhalmi Horgásztanya – büfé (kb.)",
-  fkm:"H ~90 fkm", date:"07.30 – rövid megálló", type:"lehetséges megálló / büfé",
+  fkm:"H ~90 fkm", dkm:"8,3 km", date:"07.30 – rövid megálló", type:"lehetséges megálló / büfé",
   svc:["árnyékos büfé","hideg üdítő, jégkrém","hivatalos kikötő"],
   txt:"A KHESZ hivatalos kikötőhelye a Félhalmi-holtág I. szakaszával szemben, a bal parti töltésen belül. "
-     +"Árnyék, jégkrém – 10–15 perc bőven elég.",
+     +"Aznapi starttól 8,3 km. Árnyék, jégkrém – 10–15 perc bőven elég.",
   q:"Félhalmi Horgásztanya Hármas-Körös"},
 
  {n:"3", day:3, camp:true, lat:46.94574, lon:20.82178, name:"Gyomaendrőd – Csicsergő Vízitúra Megállóhely",
-  fkm:"Hármas-Körös 77,0 fkm (bal part)", date:"07.30 – 3. éjszaka", type:"TÁBORHELY",
+  fkm:"Hármas-Körös 77,0 fkm (bal part)", dkm:"21,3 km (napi cél)", date:"07.30 – 3. éjszaka", type:"TÁBORHELY",
   svc:["WC","zuhany","büfé","úszó stég/mólo","WiFi","ingyenes parkoló","sátorozóhely"],
   txt:"A gyomai közúti hídnál, bal part. IV–X. között üzemel. A Ligeti Termálfürdő gyalog elérhető – "
      +"jó lazítás a 21 km után.",
   q:"Csicsergő Vízitúra Megállóhely Gyomaendrőd"},
 
  {n:"P", day:4, lat:46.93977, lon:20.63530, name:"Kisörvetői gátőrház",
-  fkm:"Hármas-Körös 61,2 fkm (bal part)", date:"07.31 – rövid megálló (15,8 km-nél)",
+  fkm:"Hármas-Körös 61,2 fkm (bal part)", dkm:"15,8 km", date:"07.31 – rövid megálló",
   type:"lehetséges megálló / kiszálló", svc:["WC","zuhany","áram","műanyag stég","árnyékos tölgyes"],
-  txt:"A Hortobágy-Berettyó torkolatánál. Műanyag stég a kiszálláshoz, hatalmas tölgyek árnyékában – "
+  txt:"A Hortobágy-Berettyó torkolatánál, az aznapi starttól 15,8 km. Műanyag stég a kiszálláshoz, hatalmas tölgyek árnyékában – "
      +"a nap egyetlen igazán jó pihenőhelye. Referencia GPS (Hortobágy-Berettyó hajózó ág): "
      +"46°56'25,35\"É / 20°38'14,13\"K.",
   q:"Kisörvető gátőrház Hármas-Körös"},
 
  {n:"B", day:4, lat:46.91317, lon:20.56194, name:"Halászlak – „Harcsa büfé\" (vasúti híd)",
-  fkm:"Hármas-Körös 53,8 fkm (bal part)", date:"07.31 – megálló v. tartalék kiszálló",
+  fkm:"Hármas-Körös 53,8 fkm (bal part)", dkm:"23,1 km", date:"07.31 – megálló v. tartalék kiszálló",
   type:"büfé + ALTERNATÍV átemelési pont – hivatalos GPS",
   svc:["büfé","WC","1 zuhany","vasúti megálló 100 m"],
-  txt:"Hivatalos GPS: 46°54'47,39\"É / 20°33'43,00\"K. Rövid megálló 23,2 km-nél. "
+  txt:"Hivatalos GPS: 46°54'47,39\"É / 20°33'43,00\"K. Rövid megálló, az aznapi starttól 23,1 km. "
      +"<b>Tartalék megoldás:</b> ha a szarvasi átemelés nem járható, itt lehet kiszállni, és a kísérőautó "
      +"viszi a kenukat a táborba (~12 km közúton). Autós lejáró csak KÖVIZIG gátengedéllyel.",
   q:"Halászlak Harcsa büfé Szarvas vasúti híd Hármas-Körös"},
 
  {n:"↥", day:4, lat:46.89953, lon:20.53593, name:"Szarvasi kenuátemelés – kiszállás az élő vízről (kb.)",
-  fkm:"Hármas-Körös ~50,5 fkm (bal part)", date:"07.31 – ÁTEMELÉS",
+  fkm:"Hármas-Körös ~50,5 fkm (bal part)", dkm:"26,5 km", date:"07.31 – ÁTEMELÉS",
   type:"ÁTEMELÉSI PONT", svc:["kísérőautó ide álljon"],
-  txt:"Itt közelíti meg legjobban a Holt-Körös az élő folyót – a mederadatokból számolva a tábor "
+  txt:"Az aznapi starttól 26,5 km – itt ér véget az élő vizes szakasz. Itt közelíti meg legjobban a Holt-Körös az élő folyót – a mederadatokból számolva a tábor "
      +"innen <b>50 m-re</b> van, tehát az átemelés kézben. "
      +"Utána a holtágon eveztek be a tábor stégjéhez. ",
   q:"Szarvas Hármas-Körös Holt-Körös átemelés kenu"},
 
- {n:"!", day:0, lat:46.89239, lon:20.50475, name:"Békésszentandrási duzzasztó", fkm:"H ~48 fkm", date:"—",
+ {n:"!", day:0, lat:46.89239, lon:20.50475, name:"Békésszentandrási duzzasztó", fkm:"H ~48 fkm", dkm:"", date:"—",
   type:"FIGYELEM – vízlépcső, NEM útvonal", svc:[],
   txt:"Nem érintitek – az átemelés e fölött történik. Ez duzzasztja fel a teljes felettes szakaszt "
      +"(ezért nincs sodrás), és innen megy a Holt-Körös szivornyás vízcseréje.",
@@ -250,7 +225,7 @@ const P = [
 
  {n:"4", day:4, camp:true, lat:46.8720, lon:20.5580,
   name:"Szarvasi Ifjúsági Tábor – VÉGPONT és táborhely (2 éjszaka)",
-  fkm:"Szarvasi Holt-Körös", date:"07.31 + 08.01 – 4. és 5. éjszaka",
+  fkm:"Szarvasi Holt-Körös", dkm:"26,5 km + átemelés (napi cél)", date:"07.31 + 08.01 – 4. és 5. éjszaka",
   type:"VÉGPONT + TÁBORHELY", svc:["WC","közös zuhanyzók","sátorozás","3 nagy stég","40 m vízparti szakasz","tábortűzhely","sportpálya","filagória"],
   txt:"5540 Szarvas, Erzsébet-liget. Közvetlenül a Holt-Körös partján, 40 m széles saját vízparti szakasszal "
      +"és 3 nagy stéggel – a kenuk itt maradnak, másnap innen indul a holtági nap. Lehatárolt sekély vizes rész, "
@@ -258,25 +233,25 @@ const P = [
   q:"Szarvasi Ifjúsági Tábor Erzsébet-liget Szarvas"},
 
  {n:"•", day:5, lat:46.8700, lon:20.5515, name:"Erzsébet-liget fahídja + mocsárciprusok (kb.)",
-  fkm:"Holt-Körös", date:"08.01", type:"látnivaló a vízről", svc:[],
+  fkm:"Holt-Körös", dkm:"", date:"08.01", type:"látnivaló a vízről", svc:[],
   txt:"A holtág egyik legfotogénebb pontja: a liget fahídja és a híres mocsárciprus-csoport a vízparton. "
-     +"Pár perc a tábortól.",
+     +"Pár perc a tábortól. (A holtági távok a térképen nem pontosak.)",
   q:"Erzsébet-liget Szarvas fahíd mocsárciprus"},
 
  {n:"•", day:5, lat:46.8760, lon:20.5330, name:"Körösvölgyi Állatpark stég (kb.)",
-  fkm:"Holt-Körös", date:"08.01", type:"stég / kölcsönző", svc:["stég","kenu- és kajakkölcsönzés"],
+  fkm:"Holt-Körös", dkm:"", date:"08.01", type:"stég / kölcsönző", svc:["stég","kenu- és kajakkölcsönzés"],
   txt:"A Körös-Maros Nemzeti Park kölcsönzője kb. 40 vízi járművel.",
   q:"Körösvölgyi Állatpark Szarvas stég"},
 
  {n:"C", day:5, lat:46.8730, lon:20.5220, name:"Szarvasi Arborétum (Pepi-kert) – vízi oldal",
-  fkm:"Holt-Körös", date:"08.01 – fordulópont", type:"FŐ CÉL / látnivaló", svc:[],
+  fkm:"Holt-Körös", dkm:"", date:"08.01 – fordulópont", type:"FŐ CÉL / látnivaló", svc:[],
   txt:"A holtági nap természetes fordulópontja, oda-vissza kb. 8–10 km a tábortól. "
      +"Útközben Bolza-kastély, Szarvasi Vízi Színház. Aki többet akar: a holtág 29,2 km hosszú, "
      +"felfelé Békésszentandrás felé még ~15 km-t lehet tekeregni.",
   q:"Szarvasi Arborétum Pepi-kert"},
 
  {n:"•", day:5, lat:46.8660, lon:20.5060, name:"Bikazug / holtág felső szakasz (kb.)",
-  fkm:"Holt-Körös", date:"08.01 – hosszú változat", type:"hosszabbítás", svc:[],
+  fkm:"Holt-Körös", dkm:"", date:"08.01 – hosszú változat", type:"hosszabbítás", svc:[],
   txt:"Ha marad erő: a Kákafoki-holtág csendesebb, vadregényes szakasza Békésszentandrás felé. "
      +"Nulla sodrás – mocsári teknősök, jégmadarak, tőkés récék.",
   q:"Bikazug holtág Szarvas"}
@@ -326,11 +301,14 @@ const approx = {};   /* a vázlatos vonalak – ha megjön a valódi meder, ezek
 function drawTrack(d, pts, dashed){
   const c = DAYS[d].color;
   const halo = L.polyline(pts, {color:'#ffffff', weight:8, opacity:.55}).addTo(layers[d]);
+  const label = (d === "5" || d === 5)
+    ? 'Holt-Körös – VÁZLATOS, a térképi útvonal nem helyes, ne vegyétek figyelembe'
+    : DAYS[d].label;
   const main = L.polyline(pts, {color:c, weight:4.2, opacity:.95, dashArray: dashed ? '9,7' : null})
-    .addTo(layers[d]).bindTooltip(DAYS[d].label, {sticky:true});
+    .addTo(layers[d]).bindTooltip(label, {sticky:true});
   return [halo, main];
 }
-/* 2-3-4. nap: VALÓDI OSM medervonal (beépítve) · 5. nap: vázlatos holtági kör */
+/* 2-3-4. nap: valódi medervonal · 5. nap: vázlatos holtági kör (NEM pontos) */
 Object.entries(TRACK).forEach(([d, pts]) => {
   approx[d] = drawTrack(d, REAL[d] || pts, d === "5");
 });
@@ -346,8 +324,9 @@ const mrk = {};
 P.forEach((p,i) => {
   const svc = p.svc.length ? '<div style="margin-top:5px">'+p.svc.map(s=>`<span class="tag w">${s}</span>`).join('')+'</div>' : '';
   const gm = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.q)}`;
+  const dk = p.dkm ? `<br><b>Aznap a starttól: ${p.dkm}</b>` : '';
   const html = `<div class="pop"><h3>${p.name}</h3>
-    <div class="fkm">${p.fkm} · <b>${p.date}</b><br>${p.type}</div>
+    <div class="fkm">${p.fkm} · <b>${p.date}</b><br>${p.type}${dk}</div>
     <div>${p.txt}</div>${svc}
     <div style="margin-top:7px"><a href="${gm}" target="_blank" rel="noopener">Megnyitás Google Maps-ben →</a></div></div>`;
   const m = L.marker([p.lat,p.lon], {icon:icon(p), zIndexOffset: p.camp?1000:0}).bindPopup(html);
@@ -368,7 +347,7 @@ Object.entries(DAYS).forEach(([k,v]) => {
 
 const TL = [
  {d:"07.28 kedd",  n:"Érkezés – Szanazug", k:"alvás: Szanazug kemping", c:"#16a085"},
- {d:"07.29 szerda",n:"Szanazug → Köröstarcsa", k:"30,3 km ⚠ · alvás: Köröstarcsa", c:"#2e86c1"},
+ {d:"07.29 szerda",n:"Szanazug → Köröstarcsa", k:"30,3 km · alvás: Köröstarcsa", c:"#2e86c1"},
  {d:"07.30 csüt.", n:"Köröstarcsa → Gyomaendrőd", k:"21,3 km · alvás: Csicsergő", c:"#e67e22"},
  {d:"07.31 péntek",n:"Gyomaendrőd → Szarvasi Ifjúsági Tábor", k:"26,5 km + átemelés · alvás: Szarvas", c:"#c0392b"},
  {d:"08.01 szo.",  n:"Szarvasi Holt-Körös", k:"10–20 km laza · alvás: Szarvas", c:"#8e44ad"},
@@ -382,22 +361,12 @@ TL.forEach(x=>{
   tl.appendChild(d);
 });
 
-/* A 2-3-4. napi nyomvonal a REAL konstansban van, a valódi OSM medergeometriából
-   (Overpass, 2026-07-02). Nincs futásidejű letöltés – offline is működik. */
-(function(){
-  const e=document.getElementById('status');
-  e.className='status ok';
-  e.innerHTML='\u2714 A nyomvonal a <b>valódi OSM-medervonalra</b> illesztve, a fájlba beépítve '
-    +'(nincs letöltés, offline is m\u0171k\u00f6dik). Ellen\u0151rizve: a folyamkilom\u00e9terb\u0151l sz\u00e1molt pontok '
-    +'139 \u00e9s 163 m-re esnek a k\u00e9t hivatalos KHESZ GPS-koordin\u00e1t\u00e1t\u00f3l.';
-})();
-
 const tb = document.querySelector('#tbl tbody');
 P.forEach((p,i)=>{
   const tr = document.createElement('tr');
   if(p.camp) tr.className='camp';
   tr.innerHTML = `<td><span class="pin${p.camp?' sq':''}" style="background:${DAYS[p.day].color};display:inline-block">${p.n}</span></td>
-    <td><b>${p.name}</b></td><td>${p.fkm}</td><td>${p.date}</td><td>${p.type}</td>
+    <td><b>${p.name}</b></td><td class="dkm">${p.dkm||'–'}</td><td>${p.fkm}</td><td>${p.date}</td><td>${p.type}</td>
     <td>${p.svc.map(s=>`<span class="tag">${s}</span>`).join(' ')||'–'}</td>`;
   tr.style.cursor='pointer';
   tr.addEventListener('click',()=>{map.setView([p.lat,p.lon],13); mrk[i].openPopup();});
