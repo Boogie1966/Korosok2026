@@ -56,6 +56,24 @@
   .note{font-size:12px;color:var(--muted);background:#fffbe8;border:1px solid #f0e2a8;border-radius:8px;padding:10px 12px}
   .lgnd{font-size:12px;color:var(--muted);margin-top:8px}
   .lgnd i{display:inline-block;width:22px;height:0;border-top:3px solid;vertical-align:middle;margin:0 5px 0 12px}
+  .wx{display:flex;flex-wrap:wrap;gap:10px}
+  .wx .now{flex:1 1 240px;background:#f2f7fb;border:1px solid #a9c6dc;border-radius:8px;padding:10px 12px}
+  .wx .now .t{font-size:30px;font-weight:700;line-height:1.15}
+  .wx .now .d{font-size:12.5px;color:var(--muted)}
+  .wxdays{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .wxd{flex:1 1 110px;min-width:108px;border:1px solid var(--line);border-radius:8px;padding:8px 6px;text-align:center;background:#fff}
+  .wxd.tour{border-color:#1f5c8b;box-shadow:inset 0 3px 0 #1f5c8b}
+  .wxd .dd{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+  .wxd .ic{font-size:24px;line-height:1.35}
+  .wxd .tt{font-size:15px;font-weight:700}
+  .wxd .tt small{font-weight:400;color:var(--muted)}
+  .wxd .mm{font-size:11.5px;color:var(--muted)}
+  .wxd .pg{font-size:11px;font-weight:600;color:#1f5c8b;margin-top:3px}
+  .wxmaps{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .wxmaps a{flex:1 1 240px;text-decoration:none;color:var(--muted)}
+  .wxmaps img{width:100%;border:1px solid var(--line);border-radius:8px;display:block}
+  .wxmaps span{display:block;font-size:11px;margin-top:3px}
+  .src{font-size:11.5px;color:var(--muted);margin-top:10px}
   .dlbar{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
   .dl{display:inline-block;text-decoration:none;font-size:13px;font-weight:600;
       padding:9px 14px;border-radius:8px;border:1px solid #c3d3c8;background:#fff;color:#1e2a24}
@@ -84,6 +102,29 @@
     Szarvas térségében a kenukat <b>át kell emelni</b> a folyóból a holtágba (kb 50 m) – ez a bevett gyakorlat az itteni
     túráknál. Az átemelés után már vízen érkeztek be a <b>Szarvasi Ifjúsági Tábor</b> stégjéhez, ami közvetlenül
     a Holt-Körös partján van.
+  </div>
+
+  <div class="card">
+    <h2>Időjárás – Szarvas <span style="font-weight:400;font-size:12px;color:var(--muted)">· a túra napjai kékkel jelölve</span></h2>
+    <div class="wx" id="wx"><div class="now"><div class="d">Előrejelzés betöltése…</div></div></div>
+    <div class="wxdays" id="wxdays"></div>
+    <div class="wxmaps">
+      <a href="https://www.idokep.hu/elorejelzes/Szarvas" target="_blank" rel="noopener">
+        <img src="https://www.idokep.hu/terkep/elore_hom_0.jpg" alt="Időkép – várható hőmérséklet" loading="lazy"
+             onerror="this.parentNode.style.display='none'">
+        <span>Időkép · várható hőmérséklet – kattints a részletes szarvasi előrejelzésért</span></a>
+      <a href="https://www.idokep.hu/szel" target="_blank" rel="noopener">
+        <img src="https://www.idokep.hu/terkep/hu/elore_24_szel.gif" alt="Időkép – várható szél, 24 óra" loading="lazy"
+             onerror="this.parentNode.style.display='none'">
+        <span>Időkép · várható szél (24 óra) – evezéshez ez a fontos</span></a>
+    </div>
+    <div class="dlbar" style="margin:12px 0 0">
+      <a class="dl pdf" href="https://www.idokep.hu/elorejelzes/Szarvas" target="_blank" rel="noopener">🌤️ Szarvas – részletes előrejelzés (Időkép)</a>
+      <a class="dl" href="https://www.idokep.hu/30napos/Szarvas" target="_blank" rel="noopener">📅 30 napos</a>
+      <a class="dl" href="https://www.idokep.hu/radar" target="_blank" rel="noopener">🌧️ Radar / viharriasztás</a>
+    </div>
+    <div class="src">Térképek, riasztások és részletes előrejelzés: <b>Időkép</b> (idokep.hu) – a képekre kattintva az Időkép oldala nyílik meg.
+      A napi számadatok forrása az Open-Meteo (ECMWF/ICON modell), mert az Időkép nem ad beágyazható települési widgetet.</div>
   </div>
 
   <div class="card">
@@ -210,7 +251,7 @@ const P = [
 
  {n:"↥", day:4, lat:46.89953, lon:20.53593, name:"Szarvasi kenuátemelés – kiszállás az élő vízről (kb.)",
   fkm:"Hármas-Körös ~50,5 fkm (bal part)", dkm:"26,5 km", date:"07.31 – ÁTEMELÉS",
-  type:"ÁTEMELÉSI PONT", svc:["kísérőautó ide álljon"],
+  type:"ÁTEMELÉSI PONT", svc:["50 m átemelés"],
   txt:"Az aznapi starttól 26,5 km – itt ér véget az élő vizes szakasz. Itt közelíti meg legjobban a Holt-Körös az élő folyót – a mederadatokból számolva a tábor "
      +"innen <b>50 m-re</b> van, tehát az átemelés kézben. "
      +"Utána a holtágon eveztek be a tábor stégjéhez. ",
@@ -360,6 +401,54 @@ TL.forEach(x=>{
   d.innerHTML = `<div class="dt">${x.d}</div><div class="nm">${x.n}</div><div class="km">${x.k}</div>`;
   tl.appendChild(d);
 });
+
+/* ---- Időjárás: Szarvas (46.8621 / 20.5521) ---- */
+(function(){
+  const WMO = {
+    0:["☀️","derült"], 1:["🌤️","gyengén felhős"], 2:["⛅","felhős"], 3:["☁️","borult"],
+    45:["🌫️","köd"], 48:["🌫️","zúzmarás köd"],
+    51:["🌦️","szitálás"], 53:["🌦️","szitálás"], 55:["🌦️","erős szitálás"],
+    56:["🌧️","ónos szitálás"], 57:["🌧️","ónos szitálás"],
+    61:["🌧️","gyenge eső"], 63:["🌧️","eső"], 65:["🌧️","erős eső"],
+    66:["🌧️","ónos eső"], 67:["🌧️","ónos eső"],
+    71:["🌨️","gyenge havazás"], 73:["🌨️","havazás"], 75:["🌨️","erős havazás"], 77:["🌨️","hószemcsék"],
+    80:["🌦️","zápor"], 81:["🌦️","zápor"], 82:["⛈️","felhőszakadás"],
+    85:["🌨️","hózápor"], 86:["🌨️","hózápor"],
+    95:["⛈️","zivatar"], 96:["⛈️","zivatar jéggel"], 99:["⛈️","zivatar jéggel"]
+  };
+  const PROG = {"2026-07-28":"Érkezés","2026-07-29":"30,3 km","2026-07-30":"21,3 km",
+                "2026-07-31":"26,5 km","2026-08-01":"Holt-Körös","2026-08-02":"Hazaút"};
+  const NAP = ["vas","hét","kedd","szer","csüt","pén","szom"];
+  const box = document.getElementById('wx'), days = document.getElementById('wxdays');
+  const url = "https://api.open-meteo.com/v1/forecast?latitude=46.8621&longitude=20.5521"
+    + "&current=temperature_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,wind_gusts_10m"
+    + "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,"
+    + "precipitation_probability_max,wind_speed_10m_max,wind_gusts_10m_max"
+    + "&timezone=Europe%2FBudapest&forecast_days=7";
+  fetch(url).then(r => r.json()).then(j => {
+    const c = j.current, w = WMO[c.weather_code] || ["","—"];
+    box.innerHTML = `<div class="now">
+      <div class="d">Most · Szarvas</div>
+      <div class="t">${w[0]} ${Math.round(c.temperature_2m)}°C</div>
+      <div class="d">${w[1]} · hőérzet ${Math.round(c.apparent_temperature)}°C</div>
+      <div class="d">szél ${Math.round(c.wind_speed_10m)} km/h (lökés ${Math.round(c.wind_gusts_10m)} km/h)
+        · csapadék ${c.precipitation} mm</div></div>`;
+    const d = j.daily;
+    days.innerHTML = d.time.map((t,i) => {
+      const dt = new Date(t + "T12:00:00"), ww = WMO[d.weather_code[i]] || ["","—"], pr = PROG[t];
+      return `<div class="wxd${pr ? ' tour' : ''}">
+        <div class="dd">${t.slice(5,7)}.${t.slice(8,10)}. ${NAP[dt.getDay()]}</div>
+        <div class="ic" title="${ww[1]}">${ww[0]}</div>
+        <div class="tt">${Math.round(d.temperature_2m_max[i])}° <small>/ ${Math.round(d.temperature_2m_min[i])}°</small></div>
+        <div class="mm">${d.precipitation_sum[i]} mm · ${d.precipitation_probability_max[i] != null ? d.precipitation_probability_max[i] : 0}%</div>
+        <div class="mm">szél ${Math.round(d.wind_speed_10m_max[i])} km/h</div>
+        ${pr ? `<div class="pg">${pr}</div>` : ''}</div>`;
+    }).join('');
+  }).catch(() => {
+    box.innerHTML = '<div class="now"><div class="d">Az előrejelzést most nem sikerült betölteni (nincs net?). '
+      + 'Nyisd meg az Időképen: <a href="https://www.idokep.hu/elorejelzes/Szarvas" target="_blank" rel="noopener">Szarvas előrejelzés →</a></div></div>';
+  });
+})();
 
 const tb = document.querySelector('#tbl tbody');
 P.forEach((p,i)=>{
